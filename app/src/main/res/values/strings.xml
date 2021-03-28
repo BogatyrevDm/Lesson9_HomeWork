@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Lesson9_HomeWork</string>
     <string name="open_contacts">Open contacts</string>
+    <string name="open_maps">Open maps</string>
+    <string name="search">Search</string>
+    <string name="default_address">Москва, Красная площадь 1</string>
+    <string name="marker_start">Start</string>
 </resources>
