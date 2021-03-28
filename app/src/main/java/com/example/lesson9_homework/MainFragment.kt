@@ -19,6 +19,13 @@ class MainFragment : Fragment() {
             }
 
         }
+        binding.openMapsButton.setOnClickListener {
+            activity?.supportFragmentManager?.apply {
+                beginTransaction().replace(R.id.container, MapsFragment.newInstance())
+                    .addToBackStack("").commitAllowingStateLoss()
+            }
+
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
