@@ -5,6 +5,8 @@ plugins {
     id "com.google.secrets_gradle_plugin" version "0.5"
 }
 
+Properties properties = new Properties()
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -20,16 +22,31 @@ android {
     }
 
     buildTypes.each {
-        Properties properties = new Properties()
         properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
-        def apiKey  = properties.getProperty("google_api_key", "")
-        it.buildConfigField  "String", "GOOGLE_API_KEY", apiKey
+        def apiKey = properties.getProperty("google_api_key", "")
+        it.buildConfigField "String", "GOOGLE_API_KEY", apiKey
     }
 
+    signingConfigs {
+        release {
+            properties.load(project.rootProject.file("key.properties").newDataInputStream())
+
+            storeFile file('lesson9.jks')
+            storePassword properties.getProperty("store_password", "")
+            keyAlias properties.getProperty("key_alias", "")
+            keyPassword properties.getProperty("key_password", "")
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TYPE", '"RELEASE"'
+        }
+        debug {
+            versionNameSuffix "-debug"
+            buildConfigField "String", "TYPE", '"DEBUG"'
         }
     }
     compileOptions {
@@ -41,6 +58,17 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    flavorDimensions 'version'
+    productFlavors {
+        withoutMaps {
+            dimension 'version'
+            versionNameSuffix '.without'
+        }
+        withMaps {
+            dimension 'version'
+            versionNameSuffix '.with'
+        }
     }
 }
 
