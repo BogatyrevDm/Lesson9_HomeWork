@@ -15,4 +15,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/open_maps_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_maps"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/open_contacts_button"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
